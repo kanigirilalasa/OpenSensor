@@ -1,21 +1,26 @@
 #include "OpenMQ2.h"
 
-/****************** MQResistanceCalculation ****************************************
-Contruction function: you must identify your analog pin that you use in the parameter
+/****************** OpenMQ2 ****************************************
+Contruction function: you must declare your analog pin that you use for sensor.
 ************************************************************************************/
-OpenMQ2::OpenMQ2(int pin){
+OpenMQ2::OpenMQ2(int pin): OpenSensor(pin){
 	_pin = pin;
 }
 
 /************************************ begin ****************************************
 Input: None
-Output: void
-Remarks: You must only call it one times. It use to calculate the Ro value.
+Output: Vcc - the value of supplying voltage for sensor. Ex: 5V, 3.3V, etc.
+        resolution - - determines the resolution (in bits) of the value returned by analogRead() function.Ex: 10bit, 11bit, etc.
+Remarks: You must only call it one times int setup() function. It use to calculate the Ro value.
 ************************************************************************************/
-void OpenMQ2::begin(){
+void OpenMQ2::begin(float Vcc, int resolution){
+	_Vcc = Vcc;
+	_resolution = resolution;
+	
 	Ro = GetRo();
+	
 	Serial.print("Calibrating...\n");                       //Calibrating the sensor. Please make sure the sensor is in clean air 
-	                                                    //when you perform the calibration                    
+	                                                        //when you perform the calibration                    
 	Serial.print("Calibration is done...\n"); 
 	Serial.print("Ro=");
     Serial.print(Ro);
@@ -29,10 +34,12 @@ Output:  the calculated sensor resistance
 Remarks: The sensor and the load resistor forms a voltage divider. Given the voltage
          across the load resistor and its resistance, the resistance of the sensor
          could be derived.
+         The RL_VALUE value you can configure in header file.
 ************************************************************************************/
 
 float OpenMQ2::MQResistanceCalculation(int raw_adc){
-	return (RL_VALUE * (1023 - raw_adc)/raw_adc);
+	return (RL_VALUE * (_Vcc - VoltageCalculation(raw_adc, _Vcc, _resolution))/VoltageCalculation(raw_adc, _Vcc, _resolution));
+//return (RL_VALUE * (1023 - raw_adc)/raw_adc);
 }
 
 /************************************ GetRo *****************************************
@@ -40,14 +47,14 @@ Input: None
 Output: Ro value of the sensor
 Remarks: This function assumes that the sensor is in clean air. It use  
          MQResistanceCalculation to calculates the sensor resistance in clean air 
-         and then divides it with RO_CLEAN_AIR_FACTOR. RO_CLEAN_AIR_FACTOR is about 
+         and then divides it with RO_CLEAN_AIR_FACTOR. RSRO_CLEAN_AIR_FACTOR is about 
          10, which differs slightly between different sensors.
 ************************************************************************************/
 float OpenMQ2::GetRo(){
 	float val = 0;
 	
 	for(int i=1; i<=GET_RO_SAMPLE_TIMES; i++){
-		val += MQResistanceCalculation(analogRead(_pin));
+		val += MQResistanceCalculation(readnTimes());
 	}
 	
 	val /= GET_RO_SAMPLE_TIMES;                                     //calculate the average value 
@@ -62,14 +69,13 @@ Input:   None
 Output:  Rs of the sensor
 Remarks: This function use MQResistanceCalculation to caculate the sensor resistance (Rs).
          The Rs changes as the sensor is in the different consentration of the target
-         gas. The sample times and the time interval between samples could be configured
-         by changing the definition of the macros.
+         gas. The sample times could be configured by changing the definition in header file.
 ************************************************************************************/ 
 float OpenMQ2::GetRs(){
 	float val = 0;
 	
 	for(int i=1; i<=GET_RS_SAMPLE_TIMES; i++){
-		val += MQResistanceCalculation(analogRead(_pin));
+		val += MQResistanceCalculation(readnTimes());
 	}
 	
 	val /= GET_RS_SAMPLE_TIMES;
@@ -77,86 +83,76 @@ float OpenMQ2::GetRs(){
 	return val;
 }
 
-/***************************** ReadLPG *********************************************
+/***************************** readLPG *********************************************
 Input:   None
 Output:  ppm of LPG of the sensor
 Remarks: This function return ppm of LPG of the sensor. It use LPGCurve[2], GetRs(), Ro
 to calculate ppm of LPG.
 ************************************************************************************/ 
-float OpenMQ2::ReadLPG(){
+float OpenMQ2::readLPG(){
 	return lpg = LPGCurve[0] * pow( (GetRs()/Ro), LPGCurve[1]);
 }
 
-/***************************** ReadCO *********************************************
+/***************************** readCO *********************************************
 Input:   None
 Output:  ppm of CO of the sensor
 Remarks: This function return ppm of CO of the sensor. It use COCurve[2], GetRs(), Ro
 to calculate ppm of CO.
 ************************************************************************************/ 
-float OpenMQ2::ReadCO(){
+float OpenMQ2::readCO(){
 	return co = COCurve[0] * pow( (GetRs()/Ro), COCurve[1]);
 }
 
-/***************************** ReadSmoke *********************************************
+/***************************** readSmoke *********************************************
 Input:   None
 Output:  ppm of Smoke of the sensor
 Remarks: This function return ppm of Smoke of the sensor. It use SmokeCurve[2], GetRs(), Ro
 to calculate ppm of Smoke.
 ************************************************************************************/ 
-float OpenMQ2::ReadSmoke(){
+float OpenMQ2::readSmoke(){
 	return smoke = SmokeCurve[0] * pow( (GetRs()/Ro), SmokeCurve[1]); 
 }
 
-/***************************** ReadPropane *********************************************
+/***************************** readPropane *********************************************
 Input:   None
 Output:  ppm of Propane of the sensor
 Remarks: This function return ppm of Smoke of the sensor. It use PropaneCurve[2], GetRs(), Ro
 to calculate ppm of Propane.
 ************************************************************************************/ 
-float OpenMQ2::ReadPropane(){
+float OpenMQ2::readPropane(){
 	return propane = PropaneCurve[0] * pow( (GetRs()/Ro), PropaneCurve[1]); 
 }
 
-/***************************** ReadH2 *********************************************
+/***************************** readH2 *********************************************
 Input:   None
 Output:  ppm of H2 of the sensor
 Remarks: This function return ppm of Smoke of the sensor. It use H2Curve[2], GetRs(), Ro
 to calculate ppm of H2.
 ************************************************************************************/ 
-float OpenMQ2::ReadH2(){
+float OpenMQ2::readH2(){
 	return h2 = H2Curve[0] * pow( (GetRs()/Ro), H2Curve[1]); 
 }
 
-/***************************** ReadH2 *********************************************
+/***************************** readAlcohol *********************************************
 Input:   None
-Output:  ppm of H2 of the sensor
-Remarks: This function return ppm of Smoke of the sensor. It use H2Curve[2], GetRs(), Ro
-to calculate ppm of H2.
+Output:  ppm of Alcohol of the sensor
+Remarks: This function return ppm of Smoke of the sensor. It use AlcoholCurve[2], GetRs(), Ro
+to calculate ppm of Alcohol.
 ************************************************************************************/ 
-float OpenMQ2::ReadAlcohol(){
+float OpenMQ2::readAlcohol(){
 	return alcohol = AlcoholCurve[0] * pow( (GetRs()/Ro), AlcoholCurve[1]); 
 }
-float OpenMQ2::ReadCH4(){
+
+/***************************** readCH4 *********************************************
+Input:   None
+Output:  ppm of CH4 of the sensor
+Remarks: This function return ppm of Smoke of the sensor. It use CH4Curve[2], GetRs(), Ro
+to calculate ppm of CH4.
+************************************************************************************/ 
+float OpenMQ2::readCH4(){
 	return ch4 = CH4Curve[0] * pow( (GetRs()/Ro), CH4Curve[1]); 
 }
 
-float OpenMQ2::MQ135ReadCO2(){
-	return mq135co2 = MQ135CO2Curve[0] * pow( (GetRs()/Ro), MQ135CO2Curve[1]); 
-}
-float OpenMQ2::MQ135ReadCO(){
-	return mq135co = MQ135COCurve[0] * pow( (GetRs()/Ro), MQ135COCurve[1]); 
-}
-float OpenMQ2::MQ135ReadNH4(){
-	return mq135nh4 = MQ135NH4Curve[0] * pow( (GetRs()/Ro), MQ135NH4Curve[1]); 
-}
-float OpenMQ2::readSulfide(){
-	return sulfide = SulfideCurve[0] * pow( (GetRs()/Ro), SulfideCurve[1]); 
-}
-float OpenMQ2::readMethane(){
-	return methane = MethaneCurve[0] * pow( (GetRs()/Ro), MethaneCurve[1]); 
-}
-float OpenMQ2::readBenzene(){
-	return benzene = BenzeneCurve[0] * pow( (GetRs()/Ro), BenzeneCurve[1]); 
-}
+
 
 

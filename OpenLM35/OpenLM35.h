@@ -7,16 +7,17 @@
  #include "WProgram.h"
 #endif
 
+#include <OpenSensor.h>
+
 #define READ_TIMES  5                                                      // define how many times you read to average value.
 
-class OpenLM35{
+class OpenLM35: public OpenSensor{
 	private:
 		int _pin;                                                          // analog pin that you use for sensor LM35.
 	public:
 		OpenLM35(int pin);
 		float readCelsius(float voltage, int resolution);	
 		float readFahrenheit(float voltage, int resolution);
-		float readnTimes();	
 };
 
 #endif

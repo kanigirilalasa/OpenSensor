@@ -6,16 +6,20 @@
 #else 
 	#include <WProgram.h>
 #endif
-#include <OpenLM35.h>
-#include <OpenMQ2.h>
-#include <OpenGP2Y10.h>
 
-class OpenSensor : public OpenLM35, public OpenMQ2, public OpenGP2Y10{
+#define READ_N_TIMES         (5)                                           //define how many times that you read analog from sensor.
+
+class OpenSensor {
 	private:
-		int _pin;
+		int _pin;                                                          
+		int _digital;
 	public:
+		OpenSensor();
 		OpenSensor(int pin);
 		OpenSensor(int analogpin, int digitalpin);
+		
+		float readnTimes();
+		float VoltageCalculation(int raw_adc, float Vcc, int resolution);
 };
 
 #endif
