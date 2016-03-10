@@ -7,27 +7,6 @@ OpenMQ2::OpenMQ2(int pin): OpenSensor(pin){
 	_pin = pin;
 }
 
-/************************************ begin ****************************************
-Input: None
-Output: Vcc - the value of supplying voltage for sensor. Ex: 5V, 3.3V, etc.
-        resolution - - determines the resolution (in bits) of the value returned by analogRead() function.Ex: 10bit, 11bit, etc.
-Remarks: You must only call it one times int setup() function. It use to calculate the Ro value.
-************************************************************************************/
-void OpenMQ2::begin(float Vcc, int resolution){
-	_Vcc = Vcc;
-	_resolution = resolution;
-	
-	Ro = GetRo();
-	
-	Serial.print("Calibrating...\n");                       //Calibrating the sensor. Please make sure the sensor is in clean air 
-	                                                        //when you perform the calibration                    
-	Serial.print("Calibration is done...\n"); 
-	Serial.print("Ro=");
-    Serial.print(Ro);
-	Serial.print("kohm");
-	Serial.print("\n");
-}
-
 /****************** MQResistanceCalculation ****************************************
 Input:   raw_adc - raw value read from adc, which represents the voltage
 Output:  the calculated sensor resistance
