@@ -1,7 +1,7 @@
 #include <OpenLM35.h>
 
-OpenLM35::OpenLM35(int pin):OpenSensor(pin){
-	_pin = pin;
+OpenLM35::OpenLM35(int analogpin):OpenSensor(analogpin){
+	_analogpin = analogpin;
 }
 
 /************************************ readCelsius **********************************

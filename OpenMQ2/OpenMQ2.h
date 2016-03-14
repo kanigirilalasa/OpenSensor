@@ -1,3 +1,18 @@
+/****************************************************************************************************
+ * The OpenSensor Arduino Library is an open sources for every body who work with sensor and arduino.
+ *
+ * @Created by Tran Tri Tan <tantt2810@gmail.com>.
+ * @Copyright (C) 2016.
+ *
+ * Full sources: https://github.com/tantt2810/Opensensor
+ *
+ ***********************************************
+ * DESCRIPTION
+ *
+ * This is library for gas sensor MQ2. It is suitable for detecting of LPG, CO, propane, methane(CH4) ,alcohol, Hydrogen, smoke.
+ *
+******************************************************************************************************/
+
 #ifndef OPENMQ2_h
 #define OPENMQ2_h
 
@@ -17,8 +32,6 @@
 class OpenMQ2 : public OpenSensor{
 	private:
 		int _pin;
-		float _Vcc;
-		int _resolution;
 		
 		float LPGCurve[2] = {612.4440432 , -2.085289323};                          // for MQ2
 		float PropaneCurve[2] = {677.6031938, -2.104428615};                       // for MQ2
@@ -86,14 +99,17 @@ class OpenMQ2 : public OpenSensor{
 		
 		float GetRo();
 		float GetRs();
+		float getRsRo(float tempurature, float humidity){
+			return (0.0004 *	pow(tempurature, 2) - 0.0273 * tempurature + 1.4179) * humidity / 33;
+		}
 		
 		float readLPG();
 		float readCO();
 		float readSmoke();
 		float readPropane();
-		float readH2();
+		float readH2();                                  //Read Hydrogen
 		float readAlcohol();
-		float readCH4();
+		float readCH4();                                 //Read Methane
 };
 
 #endif

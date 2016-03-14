@@ -30,7 +30,7 @@ float OpenSensor::readnTimes(){
 Input: raw_adc - the value of analog input.
 	   Vcc - the value of supplying voltage.Ex: 5V, 3.3V, etc.
 	   resolution - determines the resolution (in bits) of the value returned by analogRead() function.Ex: 10bit, 11bit, etc.
-Output: voltage value that converse from raw_adc.
+Output: voltage value(V) that convert from raw_adc.
 Remarks: This function map raw_adc(input analog) into input voltages.
 ************************************************************************************/
 float OpenSensor::VoltageCalculation(int raw_adc, float Vcc, int resolution){

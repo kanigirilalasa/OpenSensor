@@ -104,7 +104,7 @@ float OpenMQ2::readPropane(){
 
 /***************************** readH2 *********************************************
 Input:   None
-Output:  ppm of H2 of the sensor
+Output:  ppm of H2(Hydrogen) of the sensor
 Remarks: This function return ppm of Smoke of the sensor. It use H2Curve[2], GetRs(), Ro
 to calculate ppm of H2.
 ************************************************************************************/ 
@@ -124,7 +124,7 @@ float OpenMQ2::readAlcohol(){
 
 /***************************** readCH4 *********************************************
 Input:   None
-Output:  ppm of CH4 of the sensor
+Output:  ppm of CH4(Methane) of the sensor
 Remarks: This function return ppm of Smoke of the sensor. It use CH4Curve[2], GetRs(), Ro
 to calculate ppm of CH4.
 ************************************************************************************/ 

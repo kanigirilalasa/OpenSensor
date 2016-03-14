@@ -17,8 +17,8 @@ class OpenSensor {
 		int _digital;
 		
 	protected:
-		float _Vcc = 5;                                                     //default supplying voltage for sensor. 
-		int _resolution = 10;                                               //default resolution.
+		float _Vcc;                                                     //default supplying voltage for sensor. 
+		int _resolution;                                               //default resolution.
 		
 	public:
 		

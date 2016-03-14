@@ -1,3 +1,18 @@
+/****************************************************************************************************
+ * The OpenSensor Arduino Library is an open sources for every body who work with sensor and arduino.
+ *
+ * @Created by Tran Tri Tan <tantt2810@gmail.com>.
+ * @Copyright (C) 2016.
+ *
+ * Full sources: https://github.com/tantt2810/Opensensor
+ *
+ ***********************************************
+ * DESCRIPTION
+ *
+ * This is library for dust sensor GP2Y10. It measures the density of dust.
+ *
+******************************************************************************************************/
+
 #ifndef OPENGP2Y10_h
 #define OPENGP2Y10_h
 
@@ -16,7 +31,8 @@ class OpenGP2Y10: public OpenSensor{
 //		float _Vcc;                                                   // the value of supplying voltage for sensor. Ex: 5V, 3.3V, etc.
 //		int _resolution;                                              // determines the resolution (in bits) of the value returned by analogRead().Ex: 10bit, 11bit, etc. 
 		
-		float OpenGP2Y10Curve[2] = {4.685692361, 0.582463384};        // for GP2Y10.
+//		float OpenGP2Y10Curve[2] = {4.685692361, 0.582463384};        // for GP2Y10.
+		float OpenGP2Y10Curve[2] = {0.07461348997, 1.659171329};        // for GP2Y10.
 		
 	public:
 		
