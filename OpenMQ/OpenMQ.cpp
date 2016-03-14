@@ -1,6 +1,6 @@
-#include <OpenGas.h>
+#include <OpenMQ.h>
 
-OpenGas::OpenGas(int analogpin): OpenSensor(analogpin){
+OpenMQ::OpenMQ(int analogpin): OpenSensor(analogpin){
 	_analogpin = analogpin;
 }
 
@@ -12,7 +12,7 @@ Remarks: The sensor and the load resistor forms a voltage divider. Given the vol
          could be derived.
          The RL_VALUE value you can configure in header file.
 ************************************************************************************/
-float OpenGas::MQResistanceCalculation(int raw_adc){
+float OpenMQ::MQResistanceCalculation(int raw_adc){
 	return (RL_VALUE * (_Vcc - VoltageCalculation(raw_adc, _Vcc, _resolution))/VoltageCalculation(raw_adc, _Vcc, _resolution));
 }
 
@@ -24,7 +24,7 @@ Remarks: This function assumes that the sensor is in clean air. It use
          and then divides it with RO_CLEAN_AIR_FACTOR. RSRO_CLEAN_AIR_FACTOR is about 
          10, which differs slightly between different sensors.
 ************************************************************************************/
-float OpenGas::GetRo(){
+float OpenMQ::GetRo(){
 	float val = 0;
 	
 	for(int i=1; i<=GET_RO_SAMPLE_TIMES; i++){
@@ -45,7 +45,7 @@ Remarks: This function use MQResistanceCalculation to caculate the sensor resist
          The Rs changes as the sensor is in the different consentration of the target
          gas. The sample times could be configured by changing the definition in header file.
 ************************************************************************************/ 
-float OpenGas::GetRs(){
+float OpenMQ::GetRs(){
 	float val = 0;
 	
 	for(int i=1; i<=GET_RS_SAMPLE_TIMES; i++){

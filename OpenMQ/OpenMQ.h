@@ -1,5 +1,20 @@
-#ifndef OPENGAS_H
-#define OPENGAS_H
+/****************************************************************************************************
+ * The OpenSensor Arduino Library is an open sources for every body who work with sensor and arduino.
+ *
+ * @Created by Tran Tri Tan <tantt2810@gmail.com>.
+ * @Copyright (C) 2016.
+ *
+ * Full sources: https://github.com/tantt2810/Opensensor
+ *
+ ***********************************************
+ * DESCRIPTION
+ *
+ * This is library for gas sensor.
+ *
+******************************************************************************************************/
+
+#ifndef OPENMQ_H
+#define OPENMQ_H
 
 #if ARDUINO >= 100
  #include "Arduino.h"
@@ -14,7 +29,7 @@
 #define GET_RO_SAMPLE_TIMES          10                                    //The times of calibrating 
 #define GET_RS_SAMPLE_TIMES          10
 
-class OpenGas: public OpenSensor{
+class OpenMQ: public OpenSensor{
 	private:
 		int _analogpin;			
 		
@@ -24,7 +39,7 @@ class OpenGas: public OpenSensor{
 		float MQResistanceCalculation(int raw_adc);
 		
 	public:
-		OpenGas(int analogpin);
+		OpenMQ(int analogpin);
 		
 		/************************************ begin ****************************************
 		Input: None. It use DEFAULT_VCC and DEFAULT_RESOLUTION value. Both are defined on OpenSensor class.
