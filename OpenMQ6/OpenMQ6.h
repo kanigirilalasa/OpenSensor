@@ -13,8 +13,8 @@
  *
 ******************************************************************************************************/
 
-#ifndef OPENMQ_H
-#define OPENMQ_H
+#ifndef OPENMQ6_H
+#define OPENMQ6_H
 
 #if ARDUINO >= 100
  #include "Arduino.h"
@@ -22,9 +22,11 @@
  #include "WProgram.h"
 #endif
 
-#include <OpenMQ.h>
+#include "OpenMQ.h"
 
-#define RL_VALUE                     5                                     //The value of the load resistance on the board, in kilo ohms.
+#define OPENMQ6_VERSION              1
+
+#define RL_VALUE                     20                                     //The value of the load resistance on the board, in kilo ohms.
 
 class OpenMQ6: public OpenMQ{
 	private:
@@ -39,10 +41,14 @@ class OpenMQ6: public OpenMQ{
 		float readLPG();
 		
 		float readCH4();
+		
+		SensorInfo getSensor();
 
 };
 
-OpenMQ6::OpenMQ6(int analogpin): OpenMQ(analogpin){}
+OpenMQ6::OpenMQ6(int analogpin): OpenMQ(analogpin){
+	_analogpin = analogpin;
+}
 
 float OpenMQ6::readLPG(){
 	return LPGCurve[0] * pow((GetRs()/Ro), LPGCurve[1]);
@@ -50,6 +56,25 @@ float OpenMQ6::readLPG(){
 
 float OpenMQ6::readCH4(){
 	return CH4Curve[0] * pow((GetRs()/Ro), CH4Curve[1]);
+}
+
+/************************************ getSensor *******************************
+Input: None
+Output: basic information about sensor such as name, version, type, min/max value, etc.
+************************************************************************************/
+SensorInfo OpenMQ6::getSensor(){
+	SensorInfo sensor;
+	
+	strncpy(sensor.name, "MQ6", sizeof(sensor.name) - 1);
+	sensor.version = OPENMQ6_VERSION;
+	sensor.type = SENSOR_TYPE_GAS;
+	sensor.min_value = 0;
+	sensor.max_value = 10000;
+	sensor.analogpin = getAnalogpin();
+	sensor.Vcc = getVcc();
+	sensor.resolution = getResolution();
+	
+	return sensor;
 }
 
 #endif

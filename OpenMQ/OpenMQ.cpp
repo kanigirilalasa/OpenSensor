@@ -13,7 +13,7 @@ Remarks: The sensor and the load resistor forms a voltage divider. Given the vol
          The RL_VALUE value you can configure in header file.
 ************************************************************************************/
 float OpenMQ::MQResistanceCalculation(int raw_adc){
-	return (RL_VALUE * (_Vcc - VoltageCalculation(raw_adc, _Vcc, _resolution))/VoltageCalculation(raw_adc, _Vcc, _resolution));
+	return (RL_VALUE * (getVcc() - VoltageCalculation(raw_adc))/VoltageCalculation(raw_adc));
 }
 
 /************************************ GetRo *****************************************
@@ -28,7 +28,7 @@ float OpenMQ::GetRo(){
 	float val = 0;
 	
 	for(int i=1; i<=GET_RO_SAMPLE_TIMES; i++){
-		val += MQResistanceCalculation(readnTimes());
+		val += MQResistanceCalculation(readAnalogTimes());
 	}
 	
 	val /= GET_RO_SAMPLE_TIMES;                                     //calculate the average value 
@@ -49,7 +49,7 @@ float OpenMQ::GetRs(){
 	float val = 0;
 	
 	for(int i=1; i<=GET_RS_SAMPLE_TIMES; i++){
-		val += MQResistanceCalculation(readnTimes());
+		val += MQResistanceCalculation(readAnalogTimes());
 	}
 	
 	val /= GET_RS_SAMPLE_TIMES;

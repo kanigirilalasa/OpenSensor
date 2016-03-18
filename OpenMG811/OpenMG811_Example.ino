@@ -22,8 +22,28 @@ OpenMG811 mg811(analogpin);  //OpenMG811(analogpin): declare analog pin of senso
 
 void setup() {
   Serial.begin(9600);        //set up UART, baudrate = 9600bps.
-  mg811.begin(5, 10);   //begin(Vcc, resolution): declare Vcc and resolution value of sensor.
-  //mg811.begin();      //or this function if you want to use default value: default Vcc=5V, default resolution=10bit.
+  mg811.setup(5, 10);   //begin(Vcc, resolution): declare Vcc and resolution value of sensor.
+  //mg811.setup();      //or this function if you want to use default value: default Vcc=5V, default resolution=10bit.
+
+  // Getting info about sensor.
+  Serial.println("*********************< MG811 >************************");
+  Serial.print("Name: ");
+  Serial.println(mg811.getSensor().name);
+  Serial.print("Version: ");
+  Serial.println(mg811.getSensor().version);
+  Serial.print("Type: ");
+  Serial.println(mg811.getSensor().type);
+  Serial.print("Min value: ");
+  Serial.println(mg811.getSensor().min_value);
+  Serial.print("Max value: ");
+  Serial.println(mg811.getSensor().max_value);
+  Serial.print("Vcc: ");
+  Serial.print(mg811.getSensor().Vcc);
+  Serial.println("V");
+  Serial.print("Resolution: ");
+  Serial.print(mg811.getSensor().resolution);
+  Serial.println("bit");
+  Serial.println("******************************************************");
 }
 
 void loop() {

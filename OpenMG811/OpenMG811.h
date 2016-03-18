@@ -24,6 +24,8 @@
 
 #include <OpenSensor.h>
 
+#define OPENMG811_VERSION 1
+
 #define         DC_GAIN                      (8.5)   //define the DC gain of amplifier
 
 #define         ZERO_POINT_VOLTAGE           (0.220) //define the output of the sensor in volts when the concentration of CO2 is 400PPM
@@ -42,7 +44,7 @@ class OpenMG811: public OpenSensor{
 	public:
 		OpenMG811(int analogpin);
 		
-		float readVoltage();
+		SensorInfo getSensor();
 		
 		float readCO2();
 };
@@ -51,23 +53,32 @@ OpenMG811::OpenMG811(int analogpin): OpenSensor(analogpin){
 	_analogpin = analogpin;
 }
 
-/****************** readVoltage ****************************************
-Input:   none
-Output:  Vout(V).
-Remarks: This function return the out put voltage(V) from the sensor.
+/************************************ getSensor *******************************
+Input: None
+Output: basic information about sensor such as name, version, type, min/max value, etc.
 ************************************************************************************/
-float OpenMG811::readVoltage()
-{
-    return VoltageCalculation(readnTimes(), _Vcc, _resolution);
+SensorInfo OpenMG811::getSensor(){
+	SensorInfo sensor;
+	
+	strncpy(sensor.name, "MG811", sizeof(sensor.name) - 1);
+	sensor.version = OPENMG811_VERSION;
+	sensor.type = SENSOR_TYPE_GAS;
+	sensor.min_value = 350;
+	sensor.max_value = 10000;
+	sensor.analogpin = getAnalogpin();
+	sensor.Vcc = getVcc();
+	sensor.resolution = getResolution();
+	
+	return sensor;
 }
 
-/****************** readCO2 ****************************************
+/********************************** readCO2 ****************************************
 Input:   none
 Output:  ppm of CO2.
 Remarks: This function use CO2Curve to calculate ppm of CO2.
 ************************************************************************************/
 float OpenMG811::readCO2(){
-	return pow(10, ((readVoltage()/DC_GAIN)-CO2Curve[1])/CO2Curve[2]+CO2Curve[0]);
+	return pow(10, ((readVout()/DC_GAIN)-CO2Curve[1])/CO2Curve[2]+CO2Curve[0]);
 //		return Curve[0] * pow(readVoltage(), Curve[1]);
 }
 

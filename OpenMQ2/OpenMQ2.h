@@ -24,6 +24,8 @@
 
 #include <OpenSensor.h>
 
+#define OPENMQ2_VERSION              1
+
 #define RSRO_CLEAN_AIR_FACTOR        9.83                                  //define the value of Rs/Ro in clean air. According chart in datasheet.
 #define RL_VALUE                     5                                     //define the value of the load resistance on the board, in kilo ohms.
 #define GET_RO_SAMPLE_TIMES          10                                    //define how many times of calibrating to calculate Ro.
@@ -31,7 +33,7 @@
 
 class OpenMQ2 : public OpenSensor{
 	private:
-		int _pin;
+		int _analogpin;
 		
 		float LPGCurve[2] = {612.4440432 , -2.085289323};                          // for MQ2
 		float PropaneCurve[2] = {677.6031938, -2.104428615};                       // for MQ2
@@ -54,16 +56,16 @@ class OpenMQ2 : public OpenSensor{
 		float MQResistanceCalculation(int raw_adc);	
 	public:	
 	
-		OpenMQ2(int pin);
+		OpenMQ2(int analogpin);
 		
-		/************************************ begin ****************************************
+		/************************************ setup ****************************************
 		Input: None. It use DEFAULT_VCC and DEFAULT_RESOLUTION value. Both are defined on OpenSensor class.
 		Output: void
 		Remarks: You must only call it one times in setup() function. It use to declare Vcc, resolution value and calculate the Ro value. 
 		************************************************************************************/
-		virtual void begin(){
-			_Vcc = DEFAULT_VCC;
-			_resolution = DEFAULT_RESOLUTION;
+		void setup(){
+			setVcc(DEFAULT_VCC);
+			setResolution(DEFAULT_RESOLUTION);
 			
 			Ro = GetRo();
 			
@@ -76,15 +78,15 @@ class OpenMQ2 : public OpenSensor{
 			Serial.print("\n");
 		}
 		
-		/************************************ begin ****************************************
+		/************************************ setup ****************************************
 		Input: Vcc - the value of supplying voltage for sensor. Ex: 5V, 3.3V, etc.
 		        resolution - determines the resolution (in bits) of the value returned by analogRead() function.Ex: 10bit, 11bit, etc.
 		Output: void
 		Remarks: You must only call it one times in setup() function. It use to declare Vcc, resolution value and calculate the Ro value. 
 		************************************************************************************/
-		virtual void begin(float Vcc, int resolution){
-			_Vcc = Vcc;
-			_resolution = resolution;
+		virtual void setup(float Vcc, int resolution){
+			setVcc(Vcc);
+			setResolution(resolution);
 			
 			Ro = GetRo();
 			
@@ -110,6 +112,8 @@ class OpenMQ2 : public OpenSensor{
 		float readH2();                                  //Read Hydrogen
 		float readAlcohol();
 		float readCH4();                                 //Read Methane
+		
+		SensorInfo getSensor();
 };
 
 #endif

@@ -24,6 +24,8 @@
 
 #include <OpenSensor.h>
 
+#define OPENLM35_VERSION 1
+
 class OpenLM35: public OpenSensor{
 	private:
 		int _analogpin;                                                          // analog pin that you use for sensor LM35.
@@ -34,6 +36,12 @@ class OpenLM35: public OpenSensor{
 		float readCelsius();	                                           // tempurature value in Celsius.
 		
 		float readFahrenheit();                                            // // tempurature value in Fahrenheit.
+		
+		float convertCtoF(float C);
+		
+		float convertFtoC(float F);
+		
+		SensorInfo getSensor();
 };
 
 #endif

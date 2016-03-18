@@ -16,7 +16,7 @@ Remarks: The sensor and the load resistor forms a voltage divider. Given the vol
 ************************************************************************************/
 
 float OpenMQ135::MQResistanceCalculation(int raw_adc){
-	return (RL_VALUE * (_Vcc - VoltageCalculation(raw_adc, _Vcc, _resolution))/VoltageCalculation(raw_adc, _Vcc, _resolution));
+	return (RL_VALUE * (getVcc() - VoltageCalculation(raw_adc))/VoltageCalculation(raw_adc));
 //return (RL_VALUE * (1023 - raw_adc)/raw_adc);
 }
 
@@ -32,7 +32,7 @@ float OpenMQ135::GetRo(){
 	float val = 0;
 	
 	for(int i=1; i<=GET_RO_SAMPLE_TIMES; i++){
-		val += MQResistanceCalculation(readnTimes());
+		val += MQResistanceCalculation(readAnalogTimes());
 	}
 	
 	val /= GET_RO_SAMPLE_TIMES;                                     //calculate the average value 
@@ -53,7 +53,7 @@ float OpenMQ135::GetRs(){
 	float val = 0;
 	
 	for(int i=1; i<=GET_RS_SAMPLE_TIMES; i++){
-		val += MQResistanceCalculation(readnTimes());
+		val += MQResistanceCalculation(readAnalogTimes());
 	}
 	
 	val /= GET_RS_SAMPLE_TIMES;
@@ -119,4 +119,23 @@ to calculate ppm of Benzene.
 ************************************************************************************/ 
 float OpenMQ135::readBenzene(){
 	return benzene = BenzeneCurve[0] * pow( (GetRs()/Ro), BenzeneCurve[1]); 
+}
+
+/************************************ getSensor *******************************
+Input: None
+Output: basic information about sensor such as name, version, type, min/max value, etc.
+************************************************************************************/
+SensorInfo OpenMQ135::getSensor(){
+	SensorInfo sensor;
+	
+	strncpy(sensor.name, "MQ135", sizeof(sensor.name) - 1);
+	sensor.version = OPENMQ135_VERSION;
+	sensor.type = SENSOR_TYPE_GAS;
+	sensor.min_value = 0;
+	sensor.max_value = 10000;
+	sensor.analogpin = getAnalogpin();
+	sensor.Vcc = getVcc();
+	sensor.resolution = getResolution();
+	
+	return sensor;
 }

@@ -15,9 +15,27 @@ float OpenGP2Y10::dustDensity(){
 	
 	digitalWrite(_ledpin, HIGH);
 	
-	dust = OpenGP2Y10Curve[0] * pow(VoltageCalculation(readnTimes(), _Vcc, _resolution), OpenGP2Y10Curve[1]);
+	dust = OpenGP2Y10Curve[0] * pow(VoltageCalculation(readAnalogTimes()), OpenGP2Y10Curve[1]);
 	
 	digitalWrite(_ledpin, LOW);
 	
 	return dust;
+}
+
+/************************************ getSensor ************************************
+Input: None
+Output: basic information about sensor such as name, version, type, min/max value, etc.
+************************************************************************************/
+SensorInfo OpenGP2Y10::getSensor(){
+	SensorInfo sensor;
+	
+	strncpy(sensor.name, "GP2Y10", sizeof(sensor.name) - 1);
+	sensor.version = OPENGP2Y10_VERSION;
+	sensor.type = SENSOR_TYPE_DUST;
+	sensor.min_value = 0;
+	sensor.analogpin = getAnalogpin();
+	sensor.Vcc = getVcc();
+	sensor.resolution = getResolution();
+	
+	return sensor;
 }

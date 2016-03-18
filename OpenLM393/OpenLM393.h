@@ -24,30 +24,63 @@
 
 #include <OpenSensor.h>
 
+#define OPENLM393_VERSION 1
+
 class OpenLM393: public OpenSensor{
 	private:
 		int _analogpin;
+		int _digitalpin;
 	
 	public:
 		OpenLM393(int analogpin);
 		
-		float readLightLevel();
-	
+		OpenLM393(int analogpin, int digitalpin);
+		
+		SensorInfo getSensor();
+		
+		float readLightLevel();	
+		
+		bool isLight();
+
 };
 
 OpenLM393::OpenLM393(int analogpin): OpenSensor(analogpin){
 	_analogpin = analogpin;
 }
 
-/************************************ readLightLevel ****************************************
+OpenLM393::OpenLM393(int analogpin, int digitalpin): OpenSensor(analogpin, digitalpin){
+	_analogpin = analogpin;
+	_digitalpin	= digitalpin;
+}
+
+/************************************ getSensor *******************************
+Input: None
+Output: basic information about sensor such as name, version, type, min/max value, etc.
+************************************************************************************/
+SensorInfo OpenLM393::getSensor(){
+	SensorInfo sensor;
+	
+	strncpy(sensor.name, "LM393", sizeof(sensor.name) - 1);
+	sensor.version = OPENLM393_VERSION;
+	sensor.type = SENSOR_TYPE_LIGHT;
+	sensor.min_value = 0;
+	sensor.max_value = 100;
+	sensor.analogpin = getAnalogpin();
+	sensor.Vcc = getVcc();
+	sensor.resolution = getResolution();
+	
+	return sensor;
+}
+
+/************************************ readLightLevel *******************************
 Input: None
 Output: level of the light (0-100) percent.
 Remarks: This function calculate the level of the light.
 ************************************************************************************/
 float OpenLM393::readLightLevel(){
 	
-	int max_value = pow(2, _resolution);
-	int value = readnTimes();
+	int max_value = pow(2, getResolution());
+	int value = readAnalogTimes();
 	
 	float level = max_value - value;
 	level /= max_value;
@@ -56,4 +89,14 @@ float OpenLM393::readLightLevel(){
 	return level;
 }
 
+/************************************ isLight **************************************
+Input: None
+Output: true if Light, false if Dark.
+************************************************************************************/
+bool OpenLM393::isLight(){
+	if(readDigital() == HIGH)             // Dark
+		return false;
+	else                                  // Light
+		return true;
+}
 #endif

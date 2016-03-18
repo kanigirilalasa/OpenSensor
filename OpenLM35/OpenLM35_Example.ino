@@ -22,12 +22,31 @@ OpenLM35 lm35(analogpin);  //OpenLM35(analogpin): declare analog pin of sensor.
 
 void setup() {
   Serial.begin(9600);        //set up UART, baudrate = 9600bps.
-  lm35.begin(5, 10);   //begin(Vcc, resolution): declare Vcc and resolution value of sensor.
-  //lm35.begin();      //or this function if you want to use default value: default Vcc=5V, default resolution=10bit.
+  lm35.setup(5, 10);   //begin(Vcc, resolution): declare Vcc and resolution value of sensor.
+  //lm35.setup();      //or this function if you want to use default value: default Vcc=5V, default resolution=10bit.
+
+  // Getting info about sensor.
+  Serial.println("*********************< LM35 >************************");
+  Serial.print("Name: ");
+  Serial.println(lm35.getSensor().name);
+  Serial.print("Version: ");
+  Serial.println(lm35.getSensor().version);
+  Serial.print("Type: ");
+  Serial.println(lm35.getSensor().type);
+  Serial.print("Min value: ");
+  Serial.println(lm35.getSensor().min_value);
+  Serial.print("Max value: ");
+  Serial.println(lm35.getSensor().max_value);
+  Serial.print("Vcc: ");
+  Serial.print(lm35.getSensor().Vcc);
+  Serial.println("V");
+  Serial.print("Resolution: ");
+  Serial.print(lm35.getSensor().resolution);
+  Serial.println("bit");
+  Serial.println("******************************************************");
 }
 
 void loop() {
-  Serial.println("*********************< LM35 >************************");
   Serial.print("Temperature:    ");
   Serial.print("Celsius: ");
   Serial.print(lm35.readCelsius());  //call function readCelsius().

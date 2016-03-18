@@ -22,12 +22,32 @@ OpenMQ135 mq135(analogpin);  //OpenMQ135(analogpin): declare analog pin of senso
 
 void setup() {
   Serial.begin(9600);        //set up UART, baudrate = 9600bps.
-  mq135.begin(5, 10);   //begin(Vcc, resolution): declare Vcc and resolution value of sensor.
-  //mq135.begin();      //or this function if you want to use default value: default Vcc=5V, default resolution=10bit.
+  mq135.setup(5, 10);   //begin(Vcc, resolution): declare Vcc and resolution value of sensor.
+  //mq135.setup();      //or this function if you want to use default value: default Vcc=5V, default resolution=10bit.
+
+  // Getting info about sensor.
+  Serial.println("*********************< Openmq135 >************************");
+  Serial.print("Name: ");
+  Serial.println(mq135.getSensor().name);
+  Serial.print("Version: ");
+  Serial.println(mq135.getSensor().version);
+  Serial.print("Type: ");
+  Serial.println(mq135.getSensor().type);
+  Serial.print("Min value: ");
+  Serial.println(mq135.getSensor().min_value);
+  Serial.print("Max value: ");
+  Serial.println(mq135.getSensor().max_value);
+  Serial.print("Vcc: ");
+  Serial.print(mq135.getSensor().Vcc);
+  Serial.println("V");
+  Serial.print("Resolution: ");
+  Serial.print(mq135.getSensor().resolution);
+  Serial.println("bit");
+  Serial.println("******************************************************");
 }
 
 void loop() {
-  Serial.println("*********************< MQ135 >************************");
+  Serial.println("*********************< OpenMQ135 >************************");
   Serial.println("Air quality Sensor: ");
   
   Serial.print("CO2: ");

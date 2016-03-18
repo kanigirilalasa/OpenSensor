@@ -22,8 +22,8 @@ OpenMQ6 mq6(analogpin);  //OpenMQ6(analogpin): declare analog pin of sensor.
 
 void setup() {
   Serial.begin(9600);        //set up UART, baudrate = 9600bps.
-  mq6.begin(5, 10);   //begin(Vcc, resolution): declare Vcc and resolution value of sensor.
-  //mq6.begin();      //or this function if you want to use default value: default Vcc=5V, default resolution=10bit.
+  mq6.setup(5, 10);   //begin(Vcc, resolution): declare Vcc and resolution value of sensor.
+  //mq6.setup();      //or this function if you want to use default value: default Vcc=5V, default resolution=10bit.
 }
 
 void loop() {

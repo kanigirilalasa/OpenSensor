@@ -3,8 +3,8 @@
 /****************** OpenMQ2 ****************************************
 Contruction function: you must declare your analog pin that you use for sensor.
 ************************************************************************************/
-OpenMQ2::OpenMQ2(int pin): OpenSensor(pin){
-	_pin = pin;
+OpenMQ2::OpenMQ2(int analogpin): OpenSensor(analogpin){
+	_analogpin = analogpin;
 }
 
 /****************** MQResistanceCalculation ****************************************
@@ -17,7 +17,7 @@ Remarks: The sensor and the load resistor forms a voltage divider. Given the vol
 ************************************************************************************/
 
 float OpenMQ2::MQResistanceCalculation(int raw_adc){
-	return (RL_VALUE * (_Vcc - VoltageCalculation(raw_adc, _Vcc, _resolution))/VoltageCalculation(raw_adc, _Vcc, _resolution));
+	return (RL_VALUE * (getVcc() - VoltageCalculation(raw_adc))/VoltageCalculation(raw_adc));
 //return (RL_VALUE * (1023 - raw_adc)/raw_adc);
 }
 
@@ -33,7 +33,7 @@ float OpenMQ2::GetRo(){
 	float val = 0;
 	
 	for(int i=1; i<=GET_RO_SAMPLE_TIMES; i++){
-		val += MQResistanceCalculation(readnTimes());
+		val += MQResistanceCalculation(readAnalogTimes());
 	}
 	
 	val /= GET_RO_SAMPLE_TIMES;                                     //calculate the average value 
@@ -54,7 +54,7 @@ float OpenMQ2::GetRs(){
 	float val = 0;
 	
 	for(int i=1; i<=GET_RS_SAMPLE_TIMES; i++){
-		val += MQResistanceCalculation(readnTimes());
+		val += MQResistanceCalculation(readAnalogTimes());
 	}
 	
 	val /= GET_RS_SAMPLE_TIMES;
@@ -130,6 +130,25 @@ to calculate ppm of CH4.
 ************************************************************************************/ 
 float OpenMQ2::readCH4(){
 	return ch4 = CH4Curve[0] * pow( (GetRs()/Ro), CH4Curve[1]); 
+}
+
+/************************************ getSensor *******************************
+Input: None
+Output: basic information about sensor such as name, version, type, min/max value, etc.
+************************************************************************************/
+SensorInfo OpenMQ2::getSensor(){
+	SensorInfo sensor;
+	
+	strncpy(sensor.name, "MQ2", sizeof(sensor.name) - 1);
+	sensor.version = OPENMQ2_VERSION;
+	sensor.type = SENSOR_TYPE_GAS;
+	sensor.min_value = 0;
+	sensor.max_value = 10000;
+	sensor.analogpin = getAnalogpin();
+	sensor.Vcc = getVcc();
+	sensor.resolution = getResolution();
+	
+	return sensor;
 }
 
 
