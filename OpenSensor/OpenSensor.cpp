@@ -27,11 +27,11 @@ void OpenSensor::setResolution(int resolution){
 	_resolution = resolution;
 }
 
-int getAnalogpin(){
+int OpenSensor::getAnalogpin(){
 	return _analogpin;
 }
 
-int getDigitalpin(){
+int OpenSensor::getDigitalpin(){
 	return _digitalpin;
 }
 
