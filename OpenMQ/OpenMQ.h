@@ -32,15 +32,21 @@
 class OpenMQ: public OpenSensor{
 	private:
 		int _analogpin;			
+		int _digitalpin;
 		
 	protected:	
 		float Ro = 0;
 		
 		float MQResistanceCalculation(int raw_adc);
 		
-	public:
 		OpenMQ(int analogpin);
+		OpenMQ(int analogpin, int digitalpin);
 		
+		float GetRo();
+		
+		float GetRs();
+		
+	public:
 		/************************************ setup ****************************************
 		Input: None. It use DEFAULT_VCC and DEFAULT_RESOLUTION value. Both are defined on OpenSensor class.
 		Output: void
@@ -53,38 +59,34 @@ class OpenMQ: public OpenSensor{
 			Ro = GetRo();
 			
 			Serial.print("Calibrating...\n");                       //Calibrating the sensor. Please make sure the sensor is in clean air 
-			                                                        //when you perform the calibration                    
+																	//when you perform the calibration                    
 			Serial.print("Calibration is done...\n"); 
 			Serial.print("Ro=");
-		    Serial.print(Ro);
+			Serial.print(Ro);
 			Serial.print("kohm");
 			Serial.print("\n");
 		}
 		
 		/************************************ setup ****************************************
 		Input: Vcc - the value of supplying voltage for sensor. Ex: 5V, 3.3V, etc.
-		        resolution - determines the resolution (in bits) of the value returned by analogRead() function.Ex: 10bit, 11bit, etc.
+				resolution - determines the resolution (in bits) of the value returned by analogRead() function.Ex: 10bit, 11bit, etc.
 		Output: void
 		Remarks: You must only call it one times in setup() function. It use to declare Vcc, resolution value and calculate the Ro value. 
 		************************************************************************************/
-		virtual void setup(float Vcc, int resolution){
+		void setup(float Vcc, int resolution){
 			setVcc(Vcc);
 			setResolution(resolution);
 			
 			Ro = GetRo();
 			
 			Serial.print("Calibrating...\n");                       //Calibrating the sensor. Please make sure the sensor is in clean air 
-			                                                        //when you perform the calibration                    
+																	//when you perform the calibration                    
 			Serial.print("Calibration is done...\n"); 
 			Serial.print("Ro=");
-		    Serial.print(Ro);
+			Serial.print(Ro);
 			Serial.print("kohm");
 			Serial.print("\n");
 		}
-		
-		float GetRo();
-		
-		float GetRs();
 };
 
 #endif

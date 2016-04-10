@@ -13,11 +13,13 @@ Remarks: This function calculate the dust density in the air base on using OpenG
 float OpenGP2Y10::dustDensity(){
 	float dust = 0; 
 	
-	digitalWrite(_ledpin, HIGH);
-	
-	dust = OpenGP2Y10Curve[0] * pow(VoltageCalculation(readAnalogTimes()), OpenGP2Y10Curve[1]);
-	
 	digitalWrite(_ledpin, LOW);
+	
+	delayMicroseconds(200);
+//	dust = OpenGP2Y10Curve[0] * pow(VoltageCalculation(readAnalogTimes()), OpenGP2Y10Curve[1]);
+	dust = OpenGP2Y10Curve[0] * VoltageCalculation(readAnalog()) + OpenGP2Y10Curve[1];
+	
+	digitalWrite(_ledpin, HIGH);
 	
 	return dust;
 }

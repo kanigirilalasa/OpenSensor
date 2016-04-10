@@ -32,7 +32,7 @@ float OpenMQ135::GetRo(){
 	float val = 0;
 	
 	for(int i=1; i<=GET_RO_SAMPLE_TIMES; i++){
-		val += MQResistanceCalculation(readAnalogTimes());
+		val += MQResistanceCalculation(readAnalog());
 	}
 	
 	val /= GET_RO_SAMPLE_TIMES;                                     //calculate the average value 
@@ -53,7 +53,7 @@ float OpenMQ135::GetRs(){
 	float val = 0;
 	
 	for(int i=1; i<=GET_RS_SAMPLE_TIMES; i++){
-		val += MQResistanceCalculation(readAnalogTimes());
+		val += MQResistanceCalculation(readAnalog());
 	}
 	
 	val /= GET_RS_SAMPLE_TIMES;

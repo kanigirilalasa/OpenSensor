@@ -26,8 +26,8 @@
 
 #define OPENMQ135_VERSION              1
 
-#define RSRO_CLEAN_AIR_FACTOR        9.83                                  //The value of Rs/Ro in clean air. According chart in datasheet.
-#define RL_VALUE                     5                                     //The value of the load resistance on the board, in kilo ohms.
+#define RSRO_CLEAN_AIR_FACTOR        3.7                                  //The value of Rs/Ro in clean air. According chart in datasheet.
+#define RL_VALUE                     20                                     //The value of the load resistance on the board, in kilo ohms.
 #define GET_RO_SAMPLE_TIMES          10                                    //The times of calibrating 
 #define GET_RS_SAMPLE_TIMES          10
 		
@@ -99,7 +99,7 @@ class OpenMQ135: public OpenSensor{
 		
 		float GetRo();
 		float GetRs();
-		
+	
 		float readCO2();
 		float readCO();
 		float readNH4();
