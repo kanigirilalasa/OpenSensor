@@ -8,13 +8,13 @@ SoftwareSerial esp8266(2, 3);
 
 OpenMQ2 mq2(A0);
 OpenMQ135 mq135(A1);
-OpenGP2Y10 gp2(A2, 12);
-OpenMG811 mg811(A3);
+OpenMG811 mg811(A2);
+OpenGP2Y10 gp2(A3, 12);
 
 #define DEBUG true
 const String ssid = "BTT";
 const String pass = "Kubot_2015";
-const String ipserver = "192.168.0.102";
+const String ipserver = "192.168.0.101";
 
 String sendESP8266(String ATCommand, int timeout, boolean debug)
 {
@@ -45,7 +45,7 @@ void setup() {
 
   sendESP8266("AT+RST\r\n", 2000, DEBUG);
   sendESP8266("AT+CWMODE=3\r\n", 1000, DEBUG);
-  sendESP8266("AT+CWJAP=\"" + ssid + "\",\"" + pass + "\"\r\n", 3000, DEBUG);
+  sendESP8266("AT+CWJAP=\"" + ssid + "\",\"" + pass + "\"\r\n", 3000, DEBUG); //3000
   sendESP8266("AT+CIPMUX=0\r\n", 1000, DEBUG);
 
   mq2.setup();
@@ -79,13 +79,13 @@ void loop() {
   //      int lengthurl = url.length();
   //      Serial.print("Length: ");Serial.print(url.length());
 
-  sendESP8266("AT+CIPSTART=\"TCP\",\"" + ipserver + "\",80\r\n", 2000, DEBUG);
+  sendESP8266("AT+CIPSTART=\"TCP\",\"" + ipserver + "\",80\r\n", 1000, DEBUG); //2000
   String cipsend = "AT+CIPSEND=";
   cipsend += url.length();
   cipsend += "\r\n";
 
-  sendESP8266(cipsend, 2000, DEBUG);
-  sendESP8266(url, 6000, DEBUG);
+  sendESP8266(cipsend, 1000, DEBUG); //2000
+  sendESP8266(url,6000, DEBUG); //6000
   //  delay(10000);
 }
 
