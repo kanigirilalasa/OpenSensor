@@ -1,0 +1,66 @@
+  
+                <table class="table" bordered="1">  
+                     <tr>  
+                          <th>Model</th>  
+                          <th>Gas</th>  
+                          <th>Time</th>  
+                          <th>Value</th>  
+                          <th>Unit</th>  
+                     </tr>  
+             
+                     <tr>  
+                          <td>MQ2</td>  
+                          <td>LPG</td>  
+                          <td>2016-04-12 08:09:27</td>  
+                          <td>24.68</td>  
+                          <td>ppm</td>  
+                     </tr>  
+                  
+                     <tr>  
+                          <td>MQ2</td>  
+                          <td>LPG</td>  
+                          <td>2016-04-12 08:09:18</td>  
+                          <td>7.94</td>  
+                          <td>ppm</td>  
+                     </tr>  
+                  
+                     <tr>  
+                          <td>MQ2</td>  
+                          <td>LPG</td>  
+                          <td>2016-04-12 08:09:10</td>  
+                          <td>5.41</td>  
+                          <td>ppm</td>  
+                     </tr>  
+                  
+                     <tr>  
+                          <td>MQ2</td>  
+                          <td>LPG</td>  
+                          <td>2016-04-12 08:09:01</td>  
+                          <td>6.01</td>  
+                          <td>ppm</td>  
+                     </tr>  
+                  
+                     <tr>  
+                          <td>MQ2</td>  
+                          <td>LPG</td>  
+                          <td>2016-04-12 08:08:52</td>  
+                          <td>5.82</td>  
+                          <td>ppm</td>  
+                     </tr>  
+                  
+                     <tr>  
+                          <td>MQ2</td>  
+                          <td>LPG</td>  
+                          <td>2016-04-12 08:08:44</td>  
+                          <td>5.87</td>  
+                          <td>ppm</td>  
+                     </tr>  
+                  
+                     <tr>  
+                          <td>MQ2</td>  
+                          <td>LPG</td>  
+                          <td>2016-04-12 08:08:35</td>  
+                          <td>5.59</td>  
+                          <td>ppm</td>  
+                     </tr>  
+                </table>
