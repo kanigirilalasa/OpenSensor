@@ -2,6 +2,9 @@
  * The OpenSensor Arduino Library is an open sources for every body who work with sensor and arduino.
  *
  * @Created by Tran Tri Tan <tantt2810@gmail.com>.
+ *
+ * @Intructor: Truong Minh Thai (tmthai@cit.ctu.edu.vn).
+ * 
  * @Copyright (C) 2016.
  *
  * Full sources: https://github.com/tantt2810/Opensensor

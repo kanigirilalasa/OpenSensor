@@ -2,6 +2,9 @@
  * The OpenSensor Arduino Library is an open sources for every body who work with sensor and arduino.
  *
  * @Created by Tran Tri Tan <tantt2810@gmail.com>.
+ *
+ * @Intructor: Truong Minh Thai (tmthai@cit.ctu.edu.vn).
+ *
  * @Copyright (C) 2016.
  *
  * Full sources: https://github.com/tantt2810/Opensensor
@@ -49,37 +52,37 @@ class OpenMG811: public OpenSensor{
 		float readCO2();
 };
 
-OpenMG811::OpenMG811(int analogpin): OpenSensor(analogpin){
-	_analogpin = analogpin;
-}
+	OpenMG811::OpenMG811(int analogpin): OpenSensor(analogpin){
+		_analogpin = analogpin;
+	}
 
-/************************************ getSensor *******************************
-Input: None
-Output: basic information about sensor such as name, version, type, min/max value, etc.
-************************************************************************************/
-SensorInfo OpenMG811::getSensor(){
-	SensorInfo sensor;
+	/************************************ getSensor *******************************
+	Input: None
+	Output: basic information about sensor such as name, version, type, min/max value, etc.
+	************************************************************************************/
+	SensorInfo OpenMG811::getSensor(){
+		SensorInfo sensor;
+		
+		strncpy(sensor.name, "MG811", sizeof(sensor.name) - 1);
+		sensor.version = OPENMG811_VERSION;
+		sensor.type = SENSOR_TYPE_GAS;
+		sensor.min_value = 350;
+		sensor.max_value = 10000;
+		sensor.analogpin = getAnalogpin();
+		sensor.Vcc = getVcc();
+		sensor.resolution = getResolution();
+		
+		return sensor;
+	}
 	
-	strncpy(sensor.name, "MG811", sizeof(sensor.name) - 1);
-	sensor.version = OPENMG811_VERSION;
-	sensor.type = SENSOR_TYPE_GAS;
-	sensor.min_value = 350;
-	sensor.max_value = 10000;
-	sensor.analogpin = getAnalogpin();
-	sensor.Vcc = getVcc();
-	sensor.resolution = getResolution();
-	
-	return sensor;
-}
-
-/********************************** readCO2 ****************************************
-Input:   none
-Output:  ppm of CO2.
-Remarks: This function use CO2Curve to calculate ppm of CO2.
-************************************************************************************/
-float OpenMG811::readCO2(){
-	return pow(10, ((readVout()/DC_GAIN)-CO2Curve[1])/CO2Curve[2]+CO2Curve[0]);
-//		return Curve[0] * pow(readVoltage(), Curve[1]);
-}
+	/********************************** readCO2 ****************************************
+	Input:   none
+	Output:  ppm of CO2.
+	Remarks: This function use CO2Curve to calculate ppm of CO2.
+	************************************************************************************/
+	float OpenMG811::readCO2(){
+		return pow(10, ((readVout()/DC_GAIN)-CO2Curve[1])/CO2Curve[2]+CO2Curve[0]);
+	//		return Curve[0] * pow(readVout(), Curve[1]);
+	}
 
 #endif

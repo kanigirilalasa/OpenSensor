@@ -1,3 +1,15 @@
+/****************************************************************************************************
+ * The OpenSensor Arduino Library is an open sources for every body who work with sensor and arduino.
+ *
+ * @Created by Tran Tri Tan <tantt2810@gmail.com>.
+ *
+ * @Intructor: Truong Minh Thai (tmthai@cit.ctu.edu.vn).
+ *
+ * @Copyright (C) 2016.
+ *
+ * Full sources: https://github.com/tantt2810/Opensensor
+ *
+ *****************************************************************************************************/
 #ifndef OPENSENSOR_H
 #define OPENSENSOR_H
 
@@ -8,9 +20,8 @@
 #endif
 
 #define READ_N_TIMES         (5)                                           //define how many times that you read analog from sensor.
-#define DEFAULT_VCC          (5)
-#define DEFAULT_RESOLUTION   (10)
-#define ERROR                (-1)
+#define DEFAULT_VCC          (5)										   // define default Vcc value = 5V.
+#define DEFAULT_RESOLUTION   (10)										   // define default Resolution = 10bit.
 
 /************************ Sensor Type *********************************
 **********************************************************************/
@@ -46,8 +57,8 @@ typedef struct
 
 class OpenSensor {
 	private:
-		int _analogpin = -1;                                                          
-		int _digitalpin = -1;
+		int _analogpin;                                                          
+		int _digitalpin;
 		
 		float _Vcc;                                                     //the value of supplying voltage for sensor. Ex: 5V, 3.3V, etc.
 		int _resolution;                                               //determines the resolution (in bits) of the value returned by analogRead().Ex: 10bit, 11bit, etc. 
@@ -100,42 +111,15 @@ class OpenSensor {
 		
 		int readAnalog();                                               // read adc 1 times.
 		
-		float readAnalogTimes();                                            // read adc n times with n = READ_N_TIMES, is defined in header.
+		float readAnalogTimes();                                        // read adc n times with n = READ_N_TIMES, is defined in header.
 		
-		float readAnalogTimes(int num_times);                               // read adc n times. n is a parameter.
+		float readAnalogTimes(int num_times);                           // read adc n times. n is a parameter.
 		
-		float VoltageCalculation(int raw_adc);                         // map the raw adc into voltage.
+		float VoltageCalculation(int raw_adc);                          // map the raw adc into voltage.
 		
-		float readVout();                                              // read out put voltage of sensor.
+		float readVout();                                               // read out put voltage of sensor.
 		
-		int readDigital();                                            // read value of digital pin.
-		
-//		protected:
-//			char _name[12];
-//			int _version;
-//			int _type;
-//		public: 
-//			virtual char* getName()=0;
-//			virtual int getVersion()=0;
-			
-//		class Sensor_detail{
-//			private:
-//				char _name[12];
-//				int _type;
-//				int _version;
-////				float _minValue;
-////				float _maxValue;
-//			public:
-//				virtual char[12] getName() = 0;
-//				virtual int getType() = 0;
-//				virtual int getVersion() = 0;
-////				float getMinValue();
-////				float getMaxValue();
-//		}
-		
-//		Sensor_detail getSensor(){
-//			return sensor;
-//		}
+		int readDigital();                                              // read value of digital pin.
 };
 
 #endif

@@ -2,6 +2,9 @@
  * The OpenSensor Arduino Library is an open sources for every body who work with sensor and arduino.
  *
  * @Created by Tran Tri Tan <tantt2810@gmail.com>.
+ *
+ * @Intructor: Truong Minh Thai (tmthai@cit.ctu.edu.vn).
+ * 
  * @Copyright (C) 2016.
  *
  * Full sources: https://github.com/tantt2810/Opensensor
@@ -55,7 +58,7 @@ class OpenGP2Y10: public OpenSensor{
 		Output: void
 		Remarks: You must only call it one times in setup() function. It use to declare Vcc, resolution value and set pinMode OUTPUT for led on sensor. 
 		************************************************************************************/
-		virtual void setup(float Vcc, int resolution){
+		void setup(float Vcc, int resolution){
 			setVcc(Vcc);
 			setResolution(resolution);
 			pinMode(_ledpin, OUTPUT);                                          // set OUTPUT for led inside sensor.

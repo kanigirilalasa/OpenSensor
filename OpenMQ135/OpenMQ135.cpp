@@ -2,8 +2,8 @@
 /****************** OpenMQ135 ****************************************
 Contruction function: you must declare your analog pin that you use in the parameter
 ************************************************************************************/
-OpenMQ135::OpenMQ135(int pin): OpenSensor(pin){
-	_pin = pin;
+OpenMQ135::OpenMQ135(int analogpin): OpenSensor(analogpin){
+	_analogpin = analogpin;
 }
 
 /****************** MQResistanceCalculation ****************************************

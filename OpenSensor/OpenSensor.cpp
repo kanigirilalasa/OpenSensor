@@ -93,7 +93,9 @@ float OpenSensor::VoltageCalculation(int raw_adc){
 
 /************************************ readVout *************************************
 Input: None.
-Output: the out put voltage value of sensor.
+Output: the out put voltage value of sensor.\
+		return 1 if HIGH
+		return 0 if LOW
 ************************************************************************************/
 float OpenSensor::readVout(){
 	return VoltageCalculation(readAnalog());

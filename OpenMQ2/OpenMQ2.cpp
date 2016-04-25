@@ -3,11 +3,11 @@
 /****************** OpenMQ2 ****************************************
 Contruction function: you must declare your analog pin that you use for sensor.
 ************************************************************************************/
-OpenMQ2::OpenMQ2(int analogpin): OpenMQ(analogpin){
+OpenMQ2::OpenMQ2(int analogpin): OpenSensor(analogpin){
 //	_analogpin = analogpin;
 }
 
-OpenMQ2::OpenMQ2(int analogpin, int digitalpin): OpenMQ(analogpin, digitalpin){}
+//OpenMQ2::OpenMQ2(int analogpin, int digitalpin): OpenSensor(analogpin, digitalpin){}
 
 /****************** MQResistanceCalculation ****************************************
 Input:   raw_adc - raw value read from adc, which represents the voltage
@@ -18,10 +18,10 @@ Remarks: The sensor and the load resistor forms a voltage divider. Given the vol
          The RL_VALUE value you can configure in header file.
 ************************************************************************************/
 
-//float OpenMQ2::MQResistanceCalculation(int raw_adc){
-//	return (RL_VALUE * (getVcc() - VoltageCalculation(raw_adc))/VoltageCalculation(raw_adc));
-////return (RL_VALUE * (1023 - raw_adc)/raw_adc);
-//}
+float OpenMQ2::MQResistanceCalculation(int raw_adc){
+	return (RL_VALUE * (getVcc() - VoltageCalculation(raw_adc))/VoltageCalculation(raw_adc));
+//return (RL_VALUE * (1023 - raw_adc)/raw_adc);
+}
 
 /************************************ GetRo *****************************************
 Input: None
@@ -31,19 +31,19 @@ Remarks: This function assumes that the sensor is in clean air. It use
          and then divides it with RO_CLEAN_AIR_FACTOR. RSRO_CLEAN_AIR_FACTOR is about 
          10, which differs slightly between different sensors.
 ************************************************************************************/
-//float OpenMQ2::GetRo(){
-//	float val = 0;
-//	
-//	for(int i=1; i<=GET_RO_SAMPLE_TIMES; i++){
-//		val += MQResistanceCalculation(readAnalog());
-//	}
-//	
-//	val /= GET_RO_SAMPLE_TIMES;                                     //calculate the average value 
-//		
-//	val /= RSRO_CLEAN_AIR_FACTOR;                                  //divide for RSRO_CLEAN_AIR_FACTOR to calculate Ro
-//	
-//	return val;
-//}
+float OpenMQ2::GetRo(){
+	float val = 0;
+	
+	for(int i=1; i<=GET_RO_SAMPLE_TIMES; i++){
+		val += MQResistanceCalculation(readAnalog());
+	}
+	
+	val /= GET_RO_SAMPLE_TIMES;                                     //calculate the average value 
+		
+	val /= RSRO_CLEAN_AIR_FACTOR;                                  //divide for RSRO_CLEAN_AIR_FACTOR to calculate Ro
+	
+	return val;
+}
 
 /*****************************  GetRs *********************************************
 Input:   None
@@ -52,17 +52,17 @@ Remarks: This function use MQResistanceCalculation to caculate the sensor resist
          The Rs changes as the sensor is in the different consentration of the target
          gas. The sample times could be configured by changing the definition in header file.
 ************************************************************************************/ 
-//float OpenMQ2::GetRs(){
-//	float val = 0;
-//	
-//	for(int i=1; i<=GET_RS_SAMPLE_TIMES; i++){
-//		val += MQResistanceCalculation(readAnalog());
-//	}
-//	
-//	val /= GET_RS_SAMPLE_TIMES;
-//	
-//	return val;
-//}
+float OpenMQ2::GetRs(){
+	float val = 0;
+	
+	for(int i=1; i<=GET_RS_SAMPLE_TIMES; i++){
+		val += MQResistanceCalculation(readAnalog());
+	}
+	
+	val /= GET_RS_SAMPLE_TIMES;
+	
+	return val;
+}
 
 /***************************** readLPG *********************************************
 Input:   None

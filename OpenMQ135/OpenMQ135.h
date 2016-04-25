@@ -2,6 +2,9 @@
  * The OpenSensor Arduino Library is an open sources for every body who work with sensor and arduino.
  *
  * @Created by Tran Tri Tan <tantt2810@gmail.com>.
+ *
+ * @Intructor: Truong Minh Thai (tmthai@cit.ctu.edu.vn).
+ *
  * @Copyright (C) 2016.
  *
  * Full sources: https://github.com/tantt2810/Opensensor
@@ -26,14 +29,14 @@
 
 #define OPENMQ135_VERSION              1
 
-#define RSRO_CLEAN_AIR_FACTOR        3.7                                  //The value of Rs/Ro in clean air. According chart in datasheet.
+#define RSRO_CLEAN_AIR_FACTOR        3.7                                    //The value of Rs/Ro in clean air. According chart in datasheet.
 #define RL_VALUE                     20                                     //The value of the load resistance on the board, in kilo ohms.
-#define GET_RO_SAMPLE_TIMES          10                                    //The times of calibrating 
+#define GET_RO_SAMPLE_TIMES          10                                     //The times of calibrating 
 #define GET_RS_SAMPLE_TIMES          10
 		
 class OpenMQ135: public OpenSensor{
 	private:
-		int _pin;	
+		int _analogpin;	
 		
 		float CO2Curve[2] = {116.2737926, -2.737813368};                      // for MQ135
 		float COCurve[2] = {782.8492416, -4.268032155};                       // for MQ135  
@@ -54,8 +57,8 @@ class OpenMQ135: public OpenSensor{
 		float MQResistanceCalculation(int raw_adc);
 	
 	public:
-		OpenMQ135(int pin);
-		
+		OpenMQ135(int analogpin);
+				
 		/************************************ setup ****************************************
 		Input: None. It use DEFAULT_VCC and DEFAULT_RESOLUTION value. Both are defined on OpenSensor class.
 		Output: void
