@@ -126,49 +126,7 @@ class OpenSensor {
 		
 		virtual SensorInfo getSensor() = 0;
 		
-		char* getTypeName(SensorType type){
-			char* str;
-			
-			switch(type){
-				case1:
-					str = "SENSOR_TYPE_TEMPERATURE";
-					break;
-				case 2:
-					str = "SENSOR_TYPE_LIGHT";
-					break;
-				case 3:
-					str = "SENSOR_TYPE_GAS"; 
-					break;
-				case 4:
-					str = "SENSOR_TYPE_DUST";
-					break;
-				case 5:
-					str = "SENSOR_TYPE_GYROSCOPE";
-					break;
-				case 6:
-					str = "SENSOR_TYPE_PRESSURE";
-					break;
-				case 7:
-					str = "SENSOR_TYPE_PROXIMITY";
-					break;
-				case 8:
-					str = "SENSOR_TYPE_GRAVITY";
-					break;
-				case 9:
-					str = "SENSOR_TYPE_ROTATION_VECTOR";
-					break;
-				case 10:
-					str = "SENSOR_TYPE_HUMIDITY";
-					break;
-				case 11:
-					str = "SENSOR_TYPE_COLOR";
-					break;
-				default:
-					str = "UNDETERMINE";
-					break;
-			}
-			return str;
-		}
+		char* getTypeName(SensorType type);
 };
 
 #endif
