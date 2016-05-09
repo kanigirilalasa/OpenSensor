@@ -1,8 +1,6 @@
 #include <OpenLM35.h>
 
-OpenLM35::OpenLM35(int analogpin):OpenSensor(analogpin){
-	_analogpin = analogpin;
-}
+OpenLM35::OpenLM35(int analogpin):OpenSensor(analogpin){}
 
 /************************************ readCelsius **********************************
 Input: voltage - value of voltage that you provide for sensor. Ex: 5V, 3.3V, etc.
@@ -49,10 +47,11 @@ SensorInfo OpenLM35::getSensor(){
 	
 	strncpy(sensor.name, "LM35", sizeof(sensor.name) - 1);
 	sensor.version = OPENLM35_VERSION;
-	sensor.type = SENSOR_TYPE_TEMPERATURE;
+	sensor.type = getTypeName(SENSOR_TYPE_TEMPERATURE);
 	sensor.min_value = -55;
 	sensor.max_value = 150;
 	sensor.analogpin = getAnalogpin();
+	sensor.digitalpin = getDigitalpin();
 	sensor.Vcc = getVcc();
 	sensor.resolution = getResolution();
 	

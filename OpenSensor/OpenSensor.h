@@ -23,49 +23,54 @@
 #define DEFAULT_VCC          (5)										   // define default Vcc value = 5V.
 #define DEFAULT_RESOLUTION   (10)										   // define default Resolution = 10bit.
 
-/************************ Sensor Type *********************************
-**********************************************************************/
-typedef enum
-{
-  SENSOR_TYPE_TEMPERATURE           = (1),
-  SENSOR_TYPE_LIGHT                 = (2),
-  SENSOR_TYPE_GAS                   = (3),
-  SENSOR_TYPE_DUST                  = (4),
-  SENSOR_TYPE_GYROSCOPE             = (5),
-  SENSOR_TYPE_PRESSURE              = (6),
-  SENSOR_TYPE_PROXIMITY             = (7),
-  SENSOR_TYPE_GRAVITY               = (8),
-  SENSOR_TYPE_ROTATION_VECTOR       = (9),
-  SENSOR_TYPE_HUMIDITY              = (10),
-  SENSOR_TYPE_COLOR                 = (11)
-} SensorType;
-
 /************************ Sensor Info **********************************
 ** This is used to describe basic information about a specific sensor.** 
 ***********************************************************************/
 typedef struct
-{
-    char     name[12];                        // name of the sensor.
-    int32_t  version;                         // version of library for specific sensor.
-    int32_t  type;                            // type of the sensor, choose one of SensorType above.
-    float    min_value;                       // minumum value of this sensor's value.
-    float    max_value;                       // maximum value of this sensor's value.
-	int analogpin;
-	float Vcc;
-	int resolution;
-} SensorInfo;
+	{
+	    char     name[12];                        // name of the sensor.
+	    int8_t  version;                         // version of library for specific sensor.
+	//    int32_t  type;                            // type of the sensor, choose one of SensorType above.
+		char*  type;                            // type of the sensor, choose one of SensorType above.
+	    float    min_value;                       // minumum value of this sensor's value.
+	    float    max_value;                       // maximum value of this sensor's value.
+		int analogpin;
+		int digitalpin;
+		float Vcc;
+		int resolution;
+	} SensorInfo;
 
 class OpenSensor {
 	private:
-		int _analogpin;                                                          
-		int _digitalpin;
+		int _analogpin = -1;                                                          
+		int _digitalpin = -1;
 		
 		float _Vcc;                                                     //the value of supplying voltage for sensor. Ex: 5V, 3.3V, etc.
 		int _resolution;                                               //determines the resolution (in bits) of the value returned by analogRead().Ex: 10bit, 11bit, etc. 
 		
 	public:
+		
+		/************************ Sensor Type *********************************
+		**********************************************************************/
+		typedef enum
+			{
+			  SENSOR_TYPE_TEMPERATURE           = (1),
+			  SENSOR_TYPE_LIGHT                 = (2),
+			  SENSOR_TYPE_GAS                   = (3),
+			  SENSOR_TYPE_DUST                  = (4),
+			  SENSOR_TYPE_GYROSCOPE             = (5),
+			  SENSOR_TYPE_PRESSURE              = (6),
+			  SENSOR_TYPE_PROXIMITY             = (7),
+			  SENSOR_TYPE_GRAVITY               = (8),
+			  SENSOR_TYPE_ROTATION_VECTOR       = (9),
+			  SENSOR_TYPE_HUMIDITY              = (10),
+			  SENSOR_TYPE_COLOR                 = (11)
+			} SensorType;
+		
 		OpenSensor();
+		
 		OpenSensor(int analogpin);
+		
 		OpenSensor(int analogpin, int digitalpin);
 		
 		/************************************ setup ****************************************
@@ -107,8 +112,6 @@ class OpenSensor {
 		
 		int getResolution();
 		
-		virtual SensorInfo getSensor() = 0;
-		
 		int readAnalog();                                               // read adc 1 times.
 		
 		float readAnalogTimes();                                        // read adc n times with n = READ_N_TIMES, is defined in header.
@@ -120,6 +123,52 @@ class OpenSensor {
 		float readVout();                                               // read out put voltage of sensor.
 		
 		int readDigital();                                              // read value of digital pin.
+		
+		virtual SensorInfo getSensor() = 0;
+		
+		char* getTypeName(SensorType type){
+			char* str;
+			
+			switch(type){
+				case1:
+					str = "SENSOR_TYPE_TEMPERATURE";
+					break;
+				case 2:
+					str = "SENSOR_TYPE_LIGHT";
+					break;
+				case 3:
+					str = "SENSOR_TYPE_GAS"; 
+					break;
+				case 4:
+					str = "SENSOR_TYPE_DUST";
+					break;
+				case 5:
+					str = "SENSOR_TYPE_GYROSCOPE";
+					break;
+				case 6:
+					str = "SENSOR_TYPE_PRESSURE";
+					break;
+				case 7:
+					str = "SENSOR_TYPE_PROXIMITY";
+					break;
+				case 8:
+					str = "SENSOR_TYPE_GRAVITY";
+					break;
+				case 9:
+					str = "SENSOR_TYPE_ROTATION_VECTOR";
+					break;
+				case 10:
+					str = "SENSOR_TYPE_HUMIDITY";
+					break;
+				case 11:
+					str = "SENSOR_TYPE_COLOR";
+					break;
+				default:
+					str = "UNDETERMINE";
+					break;
+			}
+			return str;
+		}
 };
 
 #endif

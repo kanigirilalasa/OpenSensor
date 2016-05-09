@@ -1,7 +1,7 @@
 #include <OpenGP2Y10.h>
 
 OpenGP2Y10::OpenGP2Y10(int analogpin, int digitalpin): OpenSensor(analogpin, digitalpin){
-	_pin = analogpin;
+	_analogpin = analogpin;
 	_ledpin = digitalpin;
 }
 
@@ -33,9 +33,10 @@ SensorInfo OpenGP2Y10::getSensor(){
 	
 	strncpy(sensor.name, "GP2Y10", sizeof(sensor.name) - 1);
 	sensor.version = OPENGP2Y10_VERSION;
-	sensor.type = SENSOR_TYPE_DUST;
+	sensor.type = getTypeName(SENSOR_TYPE_DUST);
 	sensor.min_value = 0;
 	sensor.analogpin = getAnalogpin();
+	sensor.digitalpin = getDigitalpin();
 	sensor.Vcc = getVcc();
 	sensor.resolution = getResolution();
 	

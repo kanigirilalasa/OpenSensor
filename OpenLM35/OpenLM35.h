@@ -30,8 +30,7 @@
 #define OPENLM35_VERSION 1
 
 class OpenLM35: public OpenSensor{
-	private:
-		int _analogpin;                                                          // analog pin that you use for sensor LM35.
+	private:                                                      // analog pin that you use for sensor LM35.
 
 	public:
 		OpenLM35(int analogpin);

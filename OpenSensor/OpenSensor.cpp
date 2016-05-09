@@ -58,9 +58,9 @@ Remarks: This function help to get value exactly because it read more times then
          The READ_N_TIMES value you can configure in header file.
 ************************************************************************************/
 float OpenSensor::readAnalogTimes(){
-	  float val;
+	  float val = 0;
 	  for(int i=1; i<=READ_N_TIMES; i++){                               
-	    val += analogRead(_analogpin);                                      // Read READ_N_TIMES time then sum them.
+		val += analogRead(_analogpin);                                      // Read READ_N_TIMES time then sum them.
 	  }
 	  val = val/READ_N_TIMES;                                         // average values;
 	  return val;
@@ -72,7 +72,7 @@ Output: average adc value of sensor after num_times times reading.
 Remarks: This function help to get value exactly because it read more times then average them.
 ************************************************************************************/
 float OpenSensor::readAnalogTimes(int num_times){
-	  float val;
+	  float val = 0;
 	  for(int i=1; i<=num_times; i++){                               
 	    val += analogRead(_analogpin);                                      // Read num_times time then sum them.
 	  }
@@ -94,13 +94,18 @@ float OpenSensor::VoltageCalculation(int raw_adc){
 /************************************ readVout *************************************
 Input: None.
 Output: the out put voltage value of sensor.\
-		return 1 if HIGH
-		return 0 if LOW
+
 ************************************************************************************/
 float OpenSensor::readVout(){
 	return VoltageCalculation(readAnalog());
 }
 
+/************************************ readVout *************************************
+Input: None.
+Output: read digital value.
+		return 1 if HIGH
+		return 0 if LOW
+************************************************************************************/
 int OpenSensor::readDigital(){
 	if(digitalRead(_digitalpin) == HIGH)
 		return 1;

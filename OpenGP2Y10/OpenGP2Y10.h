@@ -31,7 +31,7 @@
 
 class OpenGP2Y10: public OpenSensor{
 	private:
-		int _pin;                                                     // analog pin that you use for snesor.
+		int _analogpin;                                                     // analog pin that you use for snesor.
 		int _ledpin;                                                  // pin use for led inside GP2Y10, it is digital pin.
 		
 //		float OpenGP2Y10Curve[2] = {4.685692361, 0.582463384};        // for GP2Y10.

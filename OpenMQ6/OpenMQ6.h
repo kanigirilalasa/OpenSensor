@@ -27,7 +27,7 @@
 
 #include "OpenSensor.h"
 
-#define OPENMQ6_VERSION              1
+#define OPENMQ6_VERSION         	 1
 
 #define RSRO_CLEAN_AIR_FACTOR        9.9                                  //The value of Rs/Ro in clean air. According chart in datasheet.
 #define RL_VALUE                     20                                     //The value of the load resistance on the board, in kilo ohms.

@@ -36,9 +36,9 @@
 		
 class OpenMQ135: public OpenSensor{
 	private:
-		int _analogpin;	
 		
-		float CO2Curve[2] = {116.2737926, -2.737813368};                      // for MQ135
+//		float CO2Curve[2] = {116.2737926, -2.737813368};                      // for MQ135
+		float CO2Curve[2] = {124.9506339, -2.858626253};                      // for MQ135
 		float COCurve[2] = {782.8492416, -4.268032155};                       // for MQ135  
 		float NH4Curve[2] = {109.1992962, -2.461721687};                      // for MQ135
 		float SulfideCurve[2] = {80.95013972, -3.05514173};                   // for MQ135
@@ -58,6 +58,7 @@ class OpenMQ135: public OpenSensor{
 	
 	public:
 		OpenMQ135(int analogpin);
+		OpenMQ135(int analogpin, int digitalpin);
 				
 		/************************************ setup ****************************************
 		Input: None. It use DEFAULT_VCC and DEFAULT_RESOLUTION value. Both are defined on OpenSensor class.

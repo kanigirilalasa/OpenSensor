@@ -3,11 +3,12 @@
 /****************** OpenMQ2 ****************************************
 Contruction function: you must declare your analog pin that you use for sensor.
 ************************************************************************************/
-OpenMQ2::OpenMQ2(int analogpin): OpenSensor(analogpin){
-//	_analogpin = analogpin;
-}
+OpenMQ2::OpenMQ2(int analogpin): OpenSensor(analogpin){}
 
-//OpenMQ2::OpenMQ2(int analogpin, int digitalpin): OpenSensor(analogpin, digitalpin){}
+/****************** OpenMQ2 ****************************************
+Contruction function: you must declare your analog pin and digital pin that you use in the parameter
+************************************************************************************/
+OpenMQ2::OpenMQ2(int analogpin, int digitalpin): OpenSensor(analogpin, digitalpin){}
 
 /****************** MQResistanceCalculation ****************************************
 Input:   raw_adc - raw value read from adc, which represents the voltage
@@ -143,10 +144,11 @@ SensorInfo OpenMQ2::getSensor(){
 	
 	strncpy(sensor.name, "MQ2", sizeof(sensor.name) - 1);
 	sensor.version = OPENMQ2_VERSION;
-	sensor.type = SENSOR_TYPE_GAS;
+	sensor.type = getTypeName(SENSOR_TYPE_GAS);
 	sensor.min_value = 0;
 	sensor.max_value = 10000;
 	sensor.analogpin = getAnalogpin();
+	sensor.digitalpin = getDigitalpin();
 	sensor.Vcc = getVcc();
 	sensor.resolution = getResolution();
 	

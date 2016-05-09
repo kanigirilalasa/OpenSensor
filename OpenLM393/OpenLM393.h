@@ -31,10 +31,9 @@
 
 class OpenLM393: public OpenSensor{
 	private:
-		int _analogpin;
-		int _digitalpin;
 	
 	public:
+		
 		OpenLM393(int analogpin);
 		
 		OpenLM393(int analogpin, int digitalpin);
@@ -47,14 +46,9 @@ class OpenLM393: public OpenSensor{
 
 };
 
-OpenLM393::OpenLM393(int analogpin): OpenSensor(analogpin){
-	_analogpin = analogpin;
-}
+OpenLM393::OpenLM393(int analogpin): OpenSensor(analogpin){}
 
-OpenLM393::OpenLM393(int analogpin, int digitalpin): OpenSensor(analogpin, digitalpin){
-	_analogpin = analogpin;
-	_digitalpin	= digitalpin;
-}
+OpenLM393::OpenLM393(int analogpin, int digitalpin): OpenSensor(analogpin, digitalpin){}
 
 /************************************ getSensor *******************************
 Input: None
@@ -65,10 +59,11 @@ SensorInfo OpenLM393::getSensor(){
 	
 	strncpy(sensor.name, "LM393", sizeof(sensor.name) - 1);
 	sensor.version = OPENLM393_VERSION;
-	sensor.type = SENSOR_TYPE_LIGHT;
+	sensor.type = getTypeName(SENSOR_TYPE_LIGHT);
 	sensor.min_value = 0;
 	sensor.max_value = 100;
 	sensor.analogpin = getAnalogpin();
+	sensor.digitalpin = getDigitalpin();
 	sensor.Vcc = getVcc();
 	sensor.resolution = getResolution();
 	
@@ -83,7 +78,7 @@ Remarks: This function calculate the level of the light.
 float OpenLM393::readLightLevel(){
 	
 	int max_value = pow(2, getResolution());
-	int value = readAnalogTimes();
+	int value = readAnalog();
 	
 	float level = max_value - value;
 	level /= max_value;

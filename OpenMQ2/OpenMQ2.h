@@ -36,7 +36,6 @@
 
 class OpenMQ2 : public OpenSensor{
 	private:
-		int _analogpin;
 		
 		float LPGCurve[2] = {612.4440432 , -2.085289323};                          // for MQ2
 		float PropaneCurve[2] = {677.6031938, -2.104428615};                       // for MQ2
@@ -58,6 +57,11 @@ class OpenMQ2 : public OpenSensor{
 		
 		float MQResistanceCalculation(int raw_adc);	
 	public:	
+	
+		OpenMQ2(int analogpin);
+		
+		OpenMQ2(int analogpin, int digitalpin);
+		
 		/************************************ setup ****************************************
 		Input: None. It use DEFAULT_VCC and DEFAULT_RESOLUTION value. Both are defined on OpenSensor class.
 		Output: void
@@ -99,14 +103,8 @@ class OpenMQ2 : public OpenSensor{
 			Serial.print("\n");
 		}
 		
-		OpenMQ2(int analogpin);
-//		OpenMQ2(int analogpin, int digitalpin);
-		
 		float GetRo();
 		float GetRs();
-		float getRsRo(float tempurature, float humidity){
-			return (0.0004 *	pow(tempurature, 2) - 0.0273 * tempurature + 1.4179) * humidity / 33;
-		}
 		
 		float readLPG();
 		float readCO();

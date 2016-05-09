@@ -77,10 +77,11 @@ SensorInfo OpenMQ6::getSensor(){
 	
 	strncpy(sensor.name, "MQ6", sizeof(sensor.name) - 1);
 	sensor.version = OPENMQ6_VERSION;
-	sensor.type = SENSOR_TYPE_GAS;
+	sensor.type = getTypeName(SENSOR_TYPE_GAS);
 	sensor.min_value = 0;
 	sensor.max_value = 10000;
 	sensor.analogpin = getAnalogpin();
+	sensor.digitalpin = getDigitalpin();
 	sensor.Vcc = getVcc();
 	sensor.resolution = getResolution();
 	

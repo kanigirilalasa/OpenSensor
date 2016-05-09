@@ -36,9 +36,7 @@
 
 class OpenMG811: public OpenSensor{
 	
-	private:
-		int _analogpin;                                                                                         // analog pin for sensor.  
-		int _digitalpin;                                                                                        
+	private:                                                                                       
 	 
 		float CO2Curve[3]  =  {2.602,ZERO_POINT_VOLTAGE,(REACTION_VOLTGAE/(2.602-3))};                          // for MG811.
 //		float Curve[2] = {0.000002420649289, -16.70473006};
@@ -47,14 +45,16 @@ class OpenMG811: public OpenSensor{
 	public:
 		OpenMG811(int analogpin);
 		
+		OpenMG811(int analogpin, int digitalpin);
+		
 		SensorInfo getSensor();
 		
 		float readCO2();
 };
 
-	OpenMG811::OpenMG811(int analogpin): OpenSensor(analogpin){
-		_analogpin = analogpin;
-	}
+	OpenMG811::OpenMG811(int analogpin): OpenSensor(analogpin){}
+	
+	OpenMG811::OpenMG811(int analogpin, int digitalpin): OpenSensor(analogpin, digitalpin){}
 
 	/************************************ getSensor *******************************
 	Input: None
@@ -65,10 +65,12 @@ class OpenMG811: public OpenSensor{
 		
 		strncpy(sensor.name, "MG811", sizeof(sensor.name) - 1);
 		sensor.version = OPENMG811_VERSION;
-		sensor.type = SENSOR_TYPE_GAS;
+//		sensor.type = SENSOR_TYPE_GAS;
+		sensor.type = getTypeName(SENSOR_TYPE_GAS);
 		sensor.min_value = 350;
 		sensor.max_value = 10000;
 		sensor.analogpin = getAnalogpin();
+		sensor.digitalpin = getDigitalpin();
 		sensor.Vcc = getVcc();
 		sensor.resolution = getResolution();
 		
