@@ -9,7 +9,7 @@ Output: Tempurature in Celsius value of the sensor
 ************************************************************************************/
 float OpenLM35::readCelsius(){
 //	return (voltage * readnTimes() * 1000/10)/ pow(2, resolution);
-	return (VoltageCalculation(readAnalogTimes()) * 100);
+	return (VoltageCalculation(readAnalog()) * 100);
 }
 
 /************************************ readFahrenheit ********************************
@@ -19,7 +19,7 @@ Output: Tempurature in Fahrenheit value of the sensor
 ************************************************************************************/
 float OpenLM35::readFahrenheit(){
 //  	return ((voltage * readnTimes() * 100)/ pow(2, resolution)) * 9/5 + 32;
-  	return ((VoltageCalculation(readAnalogTimes()) * 100) * 9/5 +32);
+  	return ((VoltageCalculation(readAnalog()) * 100) * 9/5 +32);
 }
 
 /************************************ convertCtoF ********************************
